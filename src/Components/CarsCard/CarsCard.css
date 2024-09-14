@@ -1,0 +1,20 @@
+.cars__card{
+    flex-basis: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 0 10px 0 rgba(220,220,220, 0.5);
+    border-radius: 16px;
+    overflow: hidden;
+    padding-bottom: 8px;
+    cursor: pointer;
+    transition: transform 200ms linear;
+}
+.cars__card:hover{
+transform: scale(1.05);
+}
+.cars__image{
+width: 100%;
+height: 250px;
+}

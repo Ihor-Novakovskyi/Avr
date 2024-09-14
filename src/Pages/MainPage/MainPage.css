@@ -1,0 +1,19 @@
+.cars__filter-search{
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 32px;
+flex-wrap: wrap;
+padding: 16px 0px;
+border-bottom: 2px solid rgb(220,220,220, 0.5);
+}
+.cars__search-name-dependecies{
+    margin-right: 8px;
+}
+.cars__cars-content{
+display: flex;
+flex-wrap: wrap;
+gap: 24px;
+justify-content: center;
+padding-top: 16px;
+}

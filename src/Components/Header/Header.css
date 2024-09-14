@@ -1,0 +1,17 @@
+.main-page__header{
+    height: 100px;
+    padding: 0px 32px;
+    background-color:black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+.main-page__logo-1{
+    width: 200px;
+    height: 46px;
+}
+.main-page__logo-2{
+    height: 100px;
+    width: 160px;
+}
