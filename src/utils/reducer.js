@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 const getCars = createAsyncThunk(
     'cars/getCars',
-    async () => { 
+    async () => {
         try {
             const resp = await fetch("https://dummyjson.com/products/category/vehicle");
             if (resp.ok) {
@@ -9,11 +9,11 @@ const getCars = createAsyncThunk(
                 // console.log(data)
                 return data.products;
             }
-        } catch (error) { 
-            console.log('error with server',error);
+        } catch (error) {
+            console.log('error with server', error);
             return Promise.reject('error')
         }
-      
+
     }
 )
 // preloadedState: {
@@ -22,20 +22,31 @@ const getCars = createAsyncThunk(
 //     cars:[],
 //      filter: '',
 // },
-
+function fiterByValue(cars, filter) {
+    // const { brand, price, rating } = filter;
+    const brand = filter.brand;
+    const price = Number(filter.price);
+    const rating = Number(filter.rating);
+    return cars.filter((car) => {
+        const isEqualBrand = !!brand ? car.brand.toLowerCase().includes(brand.toLowerCase()) : true;
+        const isRatingCarMoreThenFilterRating = !!rating ? Number(car.rating) >= rating : true;
+        const isCarPriceLessThenFilterPrice = !!price ? Number(car.price) <= price : true;
+        console.log(isEqualBrand,)
+        return isEqualBrand && isRatingCarMoreThenFilterRating && isCarPriceLessThenFilterPrice;
+    })
+}
 const slice = createSlice({
     name: 'cars',
     reducers: {
-        filterCars: (state, { payload }) => {
-            state.filter = payload;
-            state.filteredCars = payload === '' ?
-            state.cars
+        filterCars: (state, { payload: filter }) => {
+            state.filteredCars = filter === null ?
+                state.cars
                 :
-            state.cars.filter((el) => el.element === payload)
+                fiterByValue(state.cars,filter)
 
         },
     },
-    extraReducers: (builder) => { 
+    extraReducers: (builder) => {
         builder
             .addCase(getCars.pending, (state) => {
                 state.loadStatus = 'load';
@@ -51,5 +62,5 @@ const slice = createSlice({
     }
 });
 const { reducer, actions } = slice;
-const {filterCars} = actions
-export {reducer, filterCars, getCars}
+const { filterCars } = actions
+export { reducer, filterCars, getCars }

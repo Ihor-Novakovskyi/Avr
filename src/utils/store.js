@@ -8,7 +8,6 @@ const store = configureStore({
     middleware: [thunk],
     preloadedState: {
             loadStatus: 'idle',
-            firter: '',
             filteredCars: [],
             cars:[],
     },

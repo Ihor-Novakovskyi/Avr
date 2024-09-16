@@ -1,31 +1,48 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { useSelector, useStore } from "react-redux";
 import { createSelector } from "reselect";
-import { getCars } from "../../utils/reducer";
+import { getCars, filterCars } from "../../utils/reducer";
 import { useDispatch } from "react-redux";
 import CarsCard from "../../Components/CarsCard/CarsCard";
 import './MainPage.css'
 const selector = createSelector(
-    state => state.filter,
     state => state.filteredCars,
     state => state.loadStatus,
-    (filter, filteredCars, loadStatus) => { return  {loadStatus,filter, filteredCars}}
+    (filteredCars, loadStatus) => { return  {loadStatus, filteredCars}}
 )
 export default function MainPage() { 
+    const [filter, setFilter] = useState(null);
     const cars = useSelector((state) => state.cars);
     const cars1 = useStore().getState().cars;
     console.log('cars1',cars1)
-    const {loadStatus,filter, filteredCars} = useSelector(selector);
+    const {loadStatus, filteredCars} = useSelector(selector);
     const dispatch = useDispatch();
+    function setFilterValue(e) {
+        const name = e.target.name;
+        const value = e.target.value;
+        setFilter((prevFilter) => { 
+            return {
+                ...prevFilter,
+                [name]: value,
+            }
+        })
+    }
+    console.log(filter)
+    // useEffect(() => {
+    //     if (!cars.length) {
+    //         dispatch(getCars());
+    //     } else { 
+    //         // запускаем фильтрацию, туда передам активный фильтр(он либ пустой либо фильтр имеет значение)
+    //         // всеравно будет лишний перередер либо с пустым фильтром либо со значением
+    //         dispatch(filterCars(null));
+    //     }
+    // }, []);
     useEffect(() => {
-        if (!cars.length) {
-            dispatch(getCars());
-        } else { 
-            // запускаем фильтрацию, туда передам активный фильтр(он либ пустой либо фильтр имеет значение)
-            // всеравно будет лишний перередер либо с пустым фильтром либо со значением
+        if (cars.length) { 
+            dispatch(filterCars(null));
         }
-    }, [filter]);
-
+    }, []);
+    console.log('loadStatus', loadStatus)
     let RenderData = null;
     switch (loadStatus) { 
         case 'load':
@@ -35,6 +52,7 @@ export default function MainPage() {
             RenderData = 'error';
             break;
         case 'idle':
+            console.log('loadStatus - idle')
             RenderData = 'my component was loaded without error';
             // [ <CarsCard/>, <CarsCard/>, <CarsCard/>, <CarsCard/>]
             RenderData = filteredCars.map(carInfo => { 
@@ -47,37 +65,66 @@ export default function MainPage() {
                     thumbnail: image } = carInfo;
                 return <CarsCard
                     key={ id }
-                    { ...{brand, price, rating, title, image} }
+                    { ...{brand, price, rating, title, image, id} }
                 />
             })
             break;
     }
-    if (loadStatus === 'idle') { 
-        console.log('filteredCars', filteredCars)
-    }
+ 
     return (
         <div className="main-page__cars cars">
-            <form className="cars__filter-search" onSubmit={(e) => e.preventDefault()}>
+            <form className="cars__filter-search" onSubmit={ (e) => { 
+                e.preventDefault();
+                if (filter) {
+                    dispatch(filterCars(filter))
+                } else { 
+                    dispatch(filterCars(null))
+                }
+            } }>
                 <label>
                     <span className="cars__search-name-dependecies">
                         Brand
                     </span>
-                    <input className="cars__search-dependencies" type="text" placeholder="Search by brand"/>
+                    <input
+                        onChange={ setFilterValue }
+                        value={filter !== null ? filter.brand: ''}
+                        name="brand"
+                        className="cars__search-dependencies"
+                        type="text"
+                        placeholder="Search by brand" />
                 </label>
                 <label>
                     <span className="cars__search-name-dependecies">
                         Rating
                     </span>
-                    <input type="text" placeholder="the max rait is 5"/>
+                    <input
+                        onChange={setFilterValue}
+                        value={filter !== null ? filter.rating : ''}
+                        name="rating"
+                        type="text"
+                        placeholder="the max rait is 5"
+                    />
                 </label>
                 <label>
                     <span className="cars__search-name-dependecies">
                         Price
                     </span>
-                    <input type="text" placeholder="write max price"/>
+                    <input
+                        onChange={ setFilterValue }
+                        value={filter !== null ? filter.price: ''}
+                        name="price"
+                        type="text"
+                        placeholder="write max price"
+                    />
                 </label>
                 <button>
                     Search
+                </button>
+                <button onClick={ () => { 
+                    setFilter(null)
+                    console.log('click')
+                } }>
+                    Reset filter
                 </button>
             </form>
              <div className="cars__cars-content">
@@ -88,3 +135,14 @@ export default function MainPage() {
 }
 
 
+function createFilter(e) { 
+    const name = e.target.name;
+    setFilter((prevFilter) => { 
+
+    })
+}
+function validateData(filter) { 
+    return {
+        brand: filter.brand
+    }
+}

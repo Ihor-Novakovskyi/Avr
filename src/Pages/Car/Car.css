@@ -1,0 +1,186 @@
+.car {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    padding: 24px;
+}
+
+.car__main-content {
+    align-self: stretch;
+    display: flex;
+    /* padding: 24px; */
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 16px;
+
+}
+
+/* .slider{
+flex-basis: 500px;
+display: flex;
+width: 500px;
+height: 400px;
+overflow: hidden;
+}
+.slider-slides{
+max-width: 400%;
+flex-basis: 2000px;
+width: 400%;
+display: flex;
+transform: translateX(0%);
+}
+.slider__image{
+width: 100%;
+height: 100%;
+} */
+.slider {
+    overflow: hidden;
+    flex-basis: 500px;
+    height: 280px;
+    box-shadow: 0 0 10px 0 rgba(220, 220, 220, 0.5);
+    border-radius: 16px;
+
+}
+
+.slider-slides {
+    display: flex;
+    /* transform: translateX(-100%); */
+    height: 100%;
+    width: 400%;
+}
+
+.slider__image {
+    width: 100%;
+    height: 100%;
+}
+
+.car__info {
+    flex-basis: 350px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.car__slogan{
+text-align: center;
+}
+
+.car__model-name {
+    text-align: center;
+}
+
+.car__info-list-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.info-list__header {
+    text-align: center;
+}
+
+.car__info-list {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.car__info-list-items1 {
+    flex-basis: 250px;
+    flex-grow: 1;
+}
+
+.car__info-list-items2 {
+    flex-basis: 250px;
+    flex-grow: 1;
+}
+
+.car__info-list-item {
+    display: flex;
+    padding: 4px 0px;
+    justify-content: space-between;
+    border-bottom: 2px solid rgba(220, 220, 220, 0.5);
+    border-radius: 4px;
+}
+.car__price-container{
+    display: flex;
+    justify-content: space-between;
+    /* gap:16px; */
+}
+.car__price{
+    font-size: 24px;
+}
+
+
+/* car comments  block main container*/
+.car__comments-block{
+align-self: stretch;
+display: flex;
+flex-wrap: wrap;
+align-items: start;
+gap: 24px;
+}
+/* comments first container */
+.car__comments{
+flex-basis: 350px;
+flex-grow: 1;
+display: flex;
+flex-direction: column;
+gap: 8px;
+}
+.car__reviews{
+    align-self: center;
+}
+.car__reviews-item{
+display: flex;
+flex-direction: column;
+/* box-shadow: 0 0 10px 0 rgba(220, 220, 220, 0.5); */
+border-bottom: 1px solid rgba(220, 220, 220, 0.5);
+padding-bottom: 8px;
+gap: 4px;
+}
+.car__reviewer-own-info{
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+}
+.car__reviewer-data,.reviewer-comment{
+font-size: 12px;
+}
+/* comments write new comments */
+.car__enter-comments-block{
+    flex-basis: 350px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.comments-label-container{
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.car__enter-reviewer-label{
+flex-basis: 150px;
+flex-grow: 1;
+display: flex;
+gap: 16px;
+align-items: center;
+}
+.car__enter-reviewer-info{
+flex-grow: 1;
+border: none;
+outline: none;
+padding: 8px;
+background-color: rgba(220, 220, 220, 0.5);
+border-radius: 16px;
+}
+.car__enter-reviewers-comment{
+    border: none;
+    outline: none;
+    padding: 8px;
+    background-color: rgba(220, 220, 220, 0.5);
+    border-radius: 16px;
+}
