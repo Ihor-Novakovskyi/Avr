@@ -1,0 +1,79 @@
+.car__comments-block{
+    align-self: stretch;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    gap: 24px;
+    }
+    /* comments first container current comments*/
+    .car__comments{
+    flex-basis: 350px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    }
+    .car__reviews{
+        align-self: center;
+    }
+    .car__reviews-item{
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(220, 220, 220, 0.5);
+    padding-bottom: 8px;
+    gap: 4px;
+    }
+    .car__reviewer-own-info{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    }
+    .car__reviewer-data,.reviewer-comment{
+    font-size: 12px;
+    }
+
+    /* comments second container  write new comment */
+    .car__enter-comments-block{
+        flex-basis: 350px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    .comments-label-container{
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+    .car__enter-reviewer-label{
+    flex-basis: 150px;
+    flex-grow: 1;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    }
+    .car__enter-reviewer-info{
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 8px;
+    background-color: rgba(220, 220, 220, 0.5);
+    border-radius: 8px;
+    }
+    .car__enter-reviewers-comment{
+        border: none;
+        outline: none;
+        padding: 8px;
+        background-color: rgba(220, 220, 220, 0.5);
+        border-radius: 8px;
+    }
+    .car__add-reviewers-comment{
+        align-self: center;
+        border: none;
+        padding: 8px;
+        border-radius: 8px;
+        transition: transform linear 100ms;
+    }
+    .car__add-reviewers-comment:hover{
+    transform: scale(1.1);
+    }
