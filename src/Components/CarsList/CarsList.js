@@ -33,7 +33,6 @@ export default function CarsList() {
     return RenderData;
 }
 function RenderCars({ cars }) {
-    console.log('cars', cars)
     const carsList = cars.map(carInfo => {
         const {
             brand,

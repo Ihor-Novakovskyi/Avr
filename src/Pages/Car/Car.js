@@ -7,15 +7,10 @@ import CommentsBlock from "../../Components/CommentsBlock/CommentsBlock";
 import './Car.css';
 export default function Car() {
     const vehicleId = Number(useParams().vehicleId);
-    console.log(useParams())
     const car = useSelector((state) => state.cars.find((car) => {
-        console.log(car)
-        console.log(car.id, vehicleId)
-        console.log(car.id === vehicleId)
         return car.id === vehicleId
     }));
     const loadStatus = useSelector(state => state.loadStatus);
-    console.log(car)
     let RenderData = null;
     if (loadStatus === 'load') {
         RenderData = 'loading'

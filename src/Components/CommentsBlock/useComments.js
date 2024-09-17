@@ -40,12 +40,9 @@ export default function useComments(car) {
 
 
 function setDataToLocalStorage(key, id, data) {
-    console.log(!!localStorage.getItem(key))
-    console.log(localStorage.getItem(key))
     const comments = !!localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : { [id]: [] };
     `${id}` in comments ? comments[id].push(data) : (comments[id] = [], comments[id].push(data));
     localStorage.setItem(key, JSON.stringify(comments))
-    console.log('comment', comments)
 }
 function checkData(data) { 
     const error = { reviewerName: false, reviewerEmail: false, comment: false, rating: false };

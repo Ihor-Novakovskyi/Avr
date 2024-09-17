@@ -1,8 +1,6 @@
-import { configureStore, combineReducers, } from '@reduxjs/toolkit';
-// import thunk from 'redux-thunk';
+import { configureStore} from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 import { reducer } from './reducer';
-console.log('thunk',thunk)
 const store = configureStore({
     reducer,
     middleware: [thunk],

@@ -20,7 +20,6 @@ export default function CarsCard(props) {
         image,
         id
     } = props;
-    console.log(id)
     return (
         <div
             className="cars__card"

@@ -3,11 +3,9 @@ export default async function getData ()  {
         const resp = await fetch("https://dummyjson.com/products/category/vehicle");
         if (resp.ok) {
             const data = await resp.json();
-            console.log(data.products)
             return addReviewsToCarsFromStorage('comment', data.products)
         }
     } catch (error) {
-        console.log('error with server', error);
         return Promise.reject('error')
     }
 

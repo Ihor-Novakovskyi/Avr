@@ -35,7 +35,6 @@ export default function useFilter() {
             price: false 
         })
     }
-    console.log('isError', isError)
     return {
         setFilterValue,
         filter,
@@ -59,7 +58,6 @@ function validateFiltersData(filter) {
                 case "price":
                     const price = filter[key].trim();
                     const isPriceError = filter[key].length ? (!Number(price) || Number(price) <= 0) : false;
-                    console.log('price')
                     isError[key] = isPriceError;
                     break;
                 case "rating":
@@ -70,6 +68,5 @@ function validateFiltersData(filter) {
             }
         }
     }
-    console.log('isError in function checker', isError)
     return isError;
 }

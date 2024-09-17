@@ -43,7 +43,6 @@ function fiterByValue(cars, filter) {
         const isEqualBrand = !!brand ? car.brand.toLowerCase().includes(brand.toLowerCase()) : true;
         const isRatingCarMoreThenFilterRating = !!rating ? Number(car.rating) >= rating : true;
         const isCarPriceLessThenFilterPrice = !!price ? Number(car.price) <= price : true;
-        console.log(isEqualBrand,)
         return isEqualBrand && isRatingCarMoreThenFilterRating && isCarPriceLessThenFilterPrice;
     })
 }

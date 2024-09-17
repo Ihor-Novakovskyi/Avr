@@ -90,6 +90,7 @@ export default function FilterCars() {
                 </div>
 
             </label>
+            <div className="car__filter-action-button-container">
             <button
                 disabled={ isDisabled }
                 className='car__filter-button'
@@ -105,6 +106,8 @@ export default function FilterCars() {
                 } }>
                 Reset filter
             </button>
+            </div>
+          
         </form>
     )
 }
