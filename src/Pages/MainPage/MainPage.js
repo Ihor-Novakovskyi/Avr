@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useStore } from "react-redux";
 import { createSelector } from "reselect";
 import { getCars, filterCars } from "../../utils/reducer";
@@ -9,16 +9,17 @@ const selector = createSelector(
     state => state.filteredCars,
     state => state.loadStatus,
     state => state.cars,
-    (filteredCars, loadStatus, cars) => { return  {loadStatus, filteredCars, cars}}
+    (filteredCars, loadStatus, cars) => { return { loadStatus, filteredCars, cars } }
 )
-export default function MainPage() { 
+export default function MainPage() {
     const [filter, setFilter] = useState(null);
-    const {loadStatus, filteredCars ,cars} = useSelector(selector);
+    const [isError, setError] = useState({ brand: false, rating: false, price: false });
+    const { loadStatus, filteredCars, cars } = useSelector(selector);
     const dispatch = useDispatch();
     function setFilterValue(e) {
         const name = e.target.name;
         const value = e.target.value;
-        setFilter((prevFilter) => { 
+        setFilter((prevFilter) => {
             return {
                 ...prevFilter,
                 [name]: value,
@@ -26,13 +27,13 @@ export default function MainPage() {
         })
     }
     useEffect(() => {
-        if (cars.length) { 
+        if (cars.length) {
             dispatch(filterCars(null));
         }
     }, []);
     console.log('loadStatus', loadStatus)
     let RenderData = null;
-    switch (loadStatus) { 
+    switch (loadStatus) {
         case 'load':
             RenderData = 'loading';
             break;
@@ -42,7 +43,7 @@ export default function MainPage() {
         case 'idle':
             console.log('loadStatus - idle')
             RenderData = 'my component was loaded without error';
-            RenderData = filteredCars.map(carInfo => { 
+            RenderData = filteredCars.map(carInfo => {
                 const {
                     brand,
                     id,
@@ -52,19 +53,25 @@ export default function MainPage() {
                     thumbnail: image } = carInfo;
                 return <CarsCard
                     key={ id }
-                    { ...{brand, price, rating, title, image, id} }
+                    { ...{ brand, price, rating, title, image, id } }
                 />
             })
             break;
     }
- 
+    console.log('isError', isError)
+    function 
     return (
         <div className="main-page__cars cars">
-            <form className="cars__filter-search" onSubmit={ (e) => { 
+            <form className="cars__filter-search" onSubmit={ (e) => {
                 e.preventDefault();
                 if (filter) {
-                    dispatch(filterCars(filter))
-                } else { 
+                    const isError = validateFiltersData(filter);
+                    if (!isError.brand && isError.rating && isError.price) {
+                        dispatch(filterCars(filter));
+                        return 
+                    } 
+                    setError(isError);
+                } else {
                     dispatch(filterCars(null))
                 }
             } }>
@@ -74,7 +81,7 @@ export default function MainPage() {
                     </span>
                     <input
                         onChange={ setFilterValue }
-                        value={filter !== null ? filter.brand: ''}
+                        value={ filter !== null ? filter.brand : '' }
                         name="brand"
                         className="cars__search-dependencies"
                         type="text"
@@ -85,8 +92,8 @@ export default function MainPage() {
                         Rating
                     </span>
                     <input
-                        onChange={setFilterValue}
-                        value={filter !== null ? filter.rating : ''}
+                        onChange={ setFilterValue }
+                        value={ filter !== null ? filter.rating : '' }
                         name="rating"
                         type="text"
                         placeholder="the max rait is 5"
@@ -98,7 +105,7 @@ export default function MainPage() {
                     </span>
                     <input
                         onChange={ setFilterValue }
-                        value={filter !== null ? filter.price: ''}
+                        value={ filter !== null ? filter.price : '' }
                         name="price"
                         type="text"
                         placeholder="write max price"
@@ -107,29 +114,44 @@ export default function MainPage() {
                 <button>
                     Search
                 </button>
-                <button onClick={ () => { 
+                <button onClick={ () => {
                     setFilter(null)
                     console.log('click')
                 } }>
                     Reset filter
                 </button>
             </form>
-             <div className="cars__cars-content">
-                {RenderData}
+            <div className="cars__cars-content">
+                { RenderData }
             </div>
         </div>
     )
 }
 
 
-function createFilter(e) { 
-    const name = e.target.name;
-    setFilter((prevFilter) => { 
-
-    })
-}
-function validateData(filter) { 
-    return {
-        brand: filter.brand
+function validateFiltersData(filter) {
+    const isError = { brand: false, price: false, rating: false };
+    const numberPattern = /\d/;
+    if (filter) {
+        for (let key in filter) {
+            switch (key) {
+                case "brand":
+                    const brand = filter[key].trim();
+                    const isBrendError = filter[key].length !== 0 ? numberPattern.test(brand) : false;
+                    isError[key] = isBrendError;
+                    break;
+                case "price":
+                    const price = filter[key].trim();
+                    const isPriceError = filter[key].length ? (!Number(price) || Number(rating) <= 0) : false;
+                    isError[key] = isPriceError;
+                    break;
+                case "rating":
+                    const rating = filter[key].trim();
+                    const isErrorRating = rating.length ? (!Number(rating) || Number(rating) <= -1 || Number(rating) > 5) : false;
+                    isError[key] = isErrorRating;
+                    break;
+            }
+        }
     }
+    return isError;
 }
