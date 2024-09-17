@@ -1,5 +1,7 @@
 import './Slider.css';
-export default function Slider({ images}) {
+import nextSlideArrow from './next.png';
+export default function Slider({ images }) {
+
     return (
         <div className="car-slider slider">
             <div className="slider-slides">
@@ -10,11 +12,16 @@ export default function Slider({ images}) {
                         </div>
                     )
                 }) }
-                {/*                     
-                    <img src={ images[1] } alt="" className="slider__image" />
-                    <img src={ images[2] } alt="" className="slider__image" />
-                    <img src={ images[3] } alt="" className="slider__image" /> */}
             </div>
+            <div className="slider__action-container">
+                <div className='slider__prev-slider'>
+                    <img src={nextSlideArrow} alt="arrow prev" />
+                </div>
+                <div className='slider__next-slider'>
+                    <img src={nextSlideArrow} alt="arrow prev" />
+                </div>
+            </div>
+
         </div>
     )
 }

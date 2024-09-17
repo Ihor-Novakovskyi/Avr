@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import useFilter from './useFilters';
+import { useSelector } from 'react-redux';
 import './FilterCars.css'
 
-export default function FilterCars({disabled}) {
+export default function FilterCars() {
+    const loadStatus = useSelector(state => state.loadStatus);
+    const isDisabled = loadStatus === 'error' || loadStatus === 'load';
     const {
         setFilterValue,
         filter,
@@ -29,11 +32,11 @@ export default function FilterCars({disabled}) {
                         name="brand"
                         type="text"
                         placeholder="Search by brand" />
-                     {
+                    {
                         isError.brand
                         &&
                         <span className='cars__search-filter-error'>
-                                Field is not valid
+                            Field is not valid
                         </span> }
                 </div>
 
@@ -47,18 +50,18 @@ export default function FilterCars({disabled}) {
                 </span>
                 <div className="cars__search-dependencies-wrapper">
                     <input
-                    className='cars__search-filter'
-                    onChange={ setFilterValue }
-                    value={ filter !== null ? filter.rating : '' }
-                    name="rating"
-                    type="text"
-                    placeholder="Search by rating"
+                        className='cars__search-filter'
+                        onChange={ setFilterValue }
+                        value={ filter !== null ? filter.rating : '' }
+                        name="rating"
+                        type="text"
+                        placeholder="Search by rating"
                     />
-                     {
+                    {
                         isError.rating
                         &&
                         <span className='cars__search-filter-error'>
-                                Field is not valid
+                            Field is not valid
                         </span> }
                 </div>
             </label>
@@ -71,35 +74,35 @@ export default function FilterCars({disabled}) {
                 </span>
                 <div className="cars__search-dependencies-wrapper">
                     <input
-                    className='cars__search-filter'
-                    onChange={ setFilterValue }
-                    value={ filter !== null ? filter.price : '' }
-                    name="price"
-                    type="text"
-                    placeholder="Search by max price"
+                        className='cars__search-filter'
+                        onChange={ setFilterValue }
+                        value={ filter !== null ? filter.price : '' }
+                        name="price"
+                        type="text"
+                        placeholder="Search by max price"
                     />
                     {
                         isError.price
                         &&
                         <span className='cars__search-filter-error'>
-                                Field is not valid
+                            Field is not valid
                         </span> }
                 </div>
-                
+
             </label>
             <button
-                disabled={disabled}
+                disabled={ isDisabled }
                 className='car__filter-button'
             >
                 Search
             </button>
             <button
-                disabled={disabled}
+                disabled={ isDisabled }
                 className='car__filter-button'
                 onClick={ () => {
-                setFilter(null)
-                resetError()
-            } }>
+                    setFilter(null)
+                    resetError()
+                } }>
                 Reset filter
             </button>
         </form>
