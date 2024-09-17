@@ -18,11 +18,8 @@ export default function CommentsBlock({ car }) {
     }
     function addComment(e) {
         e.preventDefault();
-        if (reviewerName && reviewerEmail && comment && rating) {
-            if (!Number(rating)) {
-                setError(error => ({ ...error, rating: true }))
-                return;
-            }
+        const isErrors = checkData(reviewerInfo);
+        if (!isErrors.reviewerName && !isErrors.reviewerEmail && !isErrors.comment && !isErrors.rating) {
             const commentSaveToStorage = {
                 ...reviewerInfo,
                 date: new Date().toISOString(),
@@ -30,12 +27,7 @@ export default function CommentsBlock({ car }) {
             const commentsTOSaveToCarInState = setDataToLocalStorage('comment', id, commentSaveToStorage)
             dispatch(addCommentsInCarProps(commentsTOSaveToCarInState))
         } else {
-            setError({
-                reviewerName: !reviewerName.length,
-                reviewerEmail: !reviewerEmail.length,
-                comment: !comment.length,
-                rating: !rating.length || !Number(rating) || Number(rating) <= -1 || Number(rating) > 5,
-            })
+            setError(isErrors)
         }
     }
     console.log(reviewerInfo)
