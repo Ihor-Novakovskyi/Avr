@@ -46,14 +46,30 @@
         flex-wrap: wrap;
     }
     .car__enter-reviewer-label{
-    flex-basis: 150px;
+    flex-basis: 200px;
     flex-grow: 1;
     display: flex;
     gap: 16px;
     align-items: center;
     }
-    .car__enter-reviewer-label--small{
-    flex-grow: 0;
+    .car__enter-reviewer-label:last-child{
+        flex-grow: 0;
+    }
+    .car__enter-reviewer-info-wrapper{
+        flex-grow:1;
+        position: relative;
+        display: flex;
+    }
+    .car__error-info-field{
+    font-size: 10px;
+    left: 8px;
+    bottom: -12px;
+    position: absolute;
+    color: red;
+    }
+    .car__enter-reviewer-info-wrapper--small{
+    flex-basis: 130px;
+    flex-grow: 0;   
     }
     .car__enter-reviewer-info{
     flex-grow: 1;
@@ -63,10 +79,14 @@
     background-color: rgba(220, 220, 220, 0.5);
     border-radius: 8px;
     }
-    /* .car__enter-reviewer-info:last-child{
-    width: 20px;
-    } */
+    .car__enter-reviewer-info-wrapper--small .car__enter-reviewer-info:first-child{
+    text-align: center;
+    }
+    .car__enter-reviewers-comment-wrapper{
+        position: relative;
+    }
     .car__enter-reviewers-comment{
+        width: 100%;
         border: none;
         outline: none;
         padding: 8px;
@@ -80,6 +100,7 @@
         border-radius: 8px;
         transition: transform linear 100ms;
     }
+
     .car__add-reviewers-comment:hover{
     transform: scale(1.1);
     }

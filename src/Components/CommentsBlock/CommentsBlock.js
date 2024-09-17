@@ -10,14 +10,17 @@ export default function CommentsBlock({ car }) {
     const { reviews, id } = car;
 
     function setComment(e) {
-        const { target: {value, name} } = e;
-        setReviewerInfo(currentInfo => ({ ...currentInfo, [name]: value}))
+        const { target: { value, name } } = e;
+        setReviewerInfo(currentInfo => ({ ...currentInfo, [name]: value }))
     }
-    function addComment(e) { 
+    function resetError() {
+        setError({ reviewerName: false, reviewerEmail: false, comment: false, rating: false });
+    }
+    function addComment(e) {
         e.preventDefault();
         if (reviewerName && reviewerEmail && comment && rating) {
-            if (!Number(rating)) { 
-                setError(error => ({...error, rating: true }))
+            if (!Number(rating)) {
+                setError(error => ({ ...error, rating: true }))
                 return;
             }
             const commentSaveToStorage = {
@@ -26,20 +29,21 @@ export default function CommentsBlock({ car }) {
             };
             const commentsTOSaveToCarInState = setDataToLocalStorage('comment', id, commentSaveToStorage)
             dispatch(addCommentsInCarProps(commentsTOSaveToCarInState))
-        } else { 
+        } else {
             setError({
                 reviewerName: !reviewerName.length,
                 reviewerEmail: !reviewerEmail.length,
                 comment: !comment.length,
-                rating: !rating.length || Number(rating),
+                rating: !rating.length || !Number(rating) || Number(rating) <= -1 || Number(rating) > 5,
             })
         }
     }
     console.log(reviewerInfo)
     console.log('isError', isError)
+    console.log('isError comment', isError.comment)
     return (
         <form
-            onSubmit={addComment}
+            onSubmit={ addComment }
             className="car__comments-block">
             <div className="car__comments">
                 <span className="car__reviews">
@@ -51,53 +55,104 @@ export default function CommentsBlock({ car }) {
             </div>
             <div className="car__enter-comments-block">
                 <div className="comments-label-container">
-                    <label className="car__enter-reviewer-label">
+                    <label
+                        onClick={ resetError }
+                        className="car__enter-reviewer-label"
+                    >
                         <span className="car__enter-reviewer-type-info">
                             Name
                         </span>
-                        <input
-                            onChange={ setComment }
-                            value={reviewerName}
-                            name="reviewerName"
-                            type="text"
-                            className="car__enter-reviewer-info"
-                        />
+                        <div className="car__enter-reviewer-info-wrapper">
+                            <input
+                                onChange={ setComment }
+                                value={ reviewerName }
+                                name="reviewerName"
+                                type="text"
+                                className="car__enter-reviewer-info"
+                            />
+                            {
+                                isError.reviewerName
+                                &&
+                                <span className="car__error-info-field"
+                                >
+                                    Field is empty
+                                </span>
+                            }
+                        </div>
+
                     </label>
 
-                    <label className="car__enter-reviewer-label">
+                    <label
+                        onClick={ resetError }
+                        className="car__enter-reviewer-label"
+                    >
                         <span className="car__enter-reviewer-type-info">
                             Email
                         </span>
-                        <input
-                            onChange={ setComment }
-                            value={reviewerEmail}
-                            name="reviewerEmail"
-                            type="text"
-                            className="car__enter-reviewer-info"
-                        />
+                        <div className="car__enter-reviewer-info-wrapper">
+                            <input
+                                onChange={ setComment }
+                                value={ reviewerEmail }
+                                name="reviewerEmail"
+                                type="text"
+                                className="car__enter-reviewer-info"
+                            />
+                            { isError.reviewerEmail
+                                &&
+                                <span className="car__error-info-field"
+                                >
+                                    Field is empty or not valid
+                                </span> }
+                        </div>
+
                     </label>
-                    <label className="car__enter-reviewer-label car__enter-reviewer-label--small">
+                    <label
+                        onClick={ resetError }
+                        className="car__enter-reviewer-label"
+                    >
                         <span className="car__enter-reviewer-type-info">
                             Rating
                         </span>
-                        <input
-                            onChange={ setComment }
-                            value={rating}
-                            name="rating"
-                            type="text"
-                            className="car__enter-reviewer-info"
-                        />
+                        <div className="car__enter-reviewer-info-wrapper car__enter-reviewer-info-wrapper--small">
+                            <input
+                                onChange={ setComment }
+                                value={ rating }
+                                name="rating"
+                                type="text"
+                                className="car__enter-reviewer-info"
+                            />
+                            {
+                                isError.rating
+                                &&
+                                <span className="car__error-info-field"
+                                >
+                                    Max rating is 5 or more 0
+                                </span>
+                            }
+                        </div>
+
                     </label>
                 </div>
+                <div className="car__enter-reviewers-comment-wrapper">
+                    <textarea
+                        onClick={ resetError }
+                        onChange={ setComment }
+                        value={ reviewerInfo.comment }
+                        className="car__enter-reviewers-comment"
+                        name="comment"
+                        id=""
+                    >
+                    </textarea>
+                    {
+                        isError.comment
+                        &&
+                        <span className="car__error-info-field"
+                        >
+                            Field is empty
+                        </span>
+                    }
+                </div>
 
-                <textarea
-                    onChange={ setComment }
-                    value={reviewerInfo.comment}
-                    className="car__enter-reviewers-comment"
-                    name="comment"
-                    id=""
-                >
-                </textarea>
                 <button className='car__add-reviewers-comment'>
                     Add your comment
                 </button>
@@ -130,10 +185,10 @@ function Comments({ userComment: { reviewerName, reviewerEmail, date, comment, r
     )
 }
 
-function setDataToLocalStorage(key, id, data) { 
+function setDataToLocalStorage(key, id, data) {
     console.log(!!localStorage.getItem(key))
     console.log(localStorage.getItem(key))
-    const comments = !!localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : {[id]: []};
+    const comments = !!localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : { [id]: [] };
     `${id}` in comments ? comments[id].push(data) : (comments[id] = [], comments[id].push(data));
     localStorage.setItem(key, JSON.stringify(comments))
     console.log('comment', comments)
