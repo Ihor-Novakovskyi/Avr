@@ -197,3 +197,32 @@ function setDataToLocalStorage(key, id, data) {
         comments: comments[id]
     }
 }
+function checkData(data) { 
+    const error = { reviewerName: false, reviewerEmail: false, comment: false, rating: false };
+    for (let key in data) { 
+        switch (key) { 
+            case "reviewerName":
+                const name = data[key].trim();
+                const isErrorName = !(name.length > 2);
+                error[key] = isErrorName;
+                break;
+            case "reviewerEmail":
+                const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                const email = data[key].trim();
+                const isErrorEmail = !emailPattern.test(email);
+                error[key] = isErrorEmail;
+                break;
+            case "comment":
+                const comment = data[key].trim();
+                const isErrorComment = !(comment.length > 0)
+                error[key] = isErrorComment;
+                break;
+            case "rating":
+                const rating = data[key];
+                const isErrorRating = !rating.length || !Number(rating) || Number(rating) <= -1 || Number(rating) > 5;
+                error[key] = isErrorRating;
+                break;
+        }
+    }
+    return error;
+}
