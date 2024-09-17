@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Avr/static/css/main.a4e3d8fe.css",
+    "main.js": "/Avr/static/js/main.003cd4db.js",
+    "static/media/avtopro.svg": "/Avr/static/media/avtopro.5a894c96795a4681561d409e519db8d0.svg",
+    "static/media/another.png": "/Avr/static/media/another.e389babe48ca717a1060.png",
+    "index.html": "/Avr/index.html",
+    "main.a4e3d8fe.css.map": "/Avr/static/css/main.a4e3d8fe.css.map",
+    "main.003cd4db.js.map": "/Avr/static/js/main.003cd4db.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a4e3d8fe.css",
+    "static/js/main.003cd4db.js"
+  ]
+}
