@@ -19,12 +19,12 @@ export default function useComments(car) {
         e.preventDefault();
         const isErrors = checkData(reviewerInfo);
         if (!isErrors.reviewerName && !isErrors.reviewerEmail && !isErrors.comment && !isErrors.rating) {
-            const commentSaveToStorage = {
+             const commentToSave = {
                 ...reviewerInfo,
                 date: new Date().toISOString(),
             };
-            const commentsTOSaveToCarInState = setDataToLocalStorage('comment', id, commentSaveToStorage)
-            dispatch(addCommentsInCarProps(commentsTOSaveToCarInState))
+            setDataToLocalStorage('comment', id, commentToSave)
+            dispatch(addCommentsInCarProps({id,comment:commentToSave}))
         } else {
             setError(isErrors)
         }
@@ -46,10 +46,6 @@ function setDataToLocalStorage(key, id, data) {
     `${id}` in comments ? comments[id].push(data) : (comments[id] = [], comments[id].push(data));
     localStorage.setItem(key, JSON.stringify(comments))
     console.log('comment', comments)
-    return {
-        id,
-        comments: comments[id]
-    }
 }
 function checkData(data) { 
     const error = { reviewerName: false, reviewerEmail: false, comment: false, rating: false };

@@ -8,14 +8,12 @@ import './MainPage.css'
 const selector = createSelector(
     state => state.filteredCars,
     state => state.loadStatus,
-    (filteredCars, loadStatus) => { return  {loadStatus, filteredCars}}
+    state => state.cars,
+    (filteredCars, loadStatus, cars) => { return  {loadStatus, filteredCars, cars}}
 )
 export default function MainPage() { 
     const [filter, setFilter] = useState(null);
-    const cars = useSelector((state) => state.cars);
-    const cars1 = useStore().getState().cars;
-    console.log('cars1',cars1)
-    const {loadStatus, filteredCars} = useSelector(selector);
+    const {loadStatus, filteredCars ,cars} = useSelector(selector);
     const dispatch = useDispatch();
     function setFilterValue(e) {
         const name = e.target.name;
@@ -27,16 +25,6 @@ export default function MainPage() {
             }
         })
     }
-    console.log(filter)
-    // useEffect(() => {
-    //     if (!cars.length) {
-    //         dispatch(getCars());
-    //     } else { 
-    //         // запускаем фильтрацию, туда передам активный фильтр(он либ пустой либо фильтр имеет значение)
-    //         // всеравно будет лишний перередер либо с пустым фильтром либо со значением
-    //         dispatch(filterCars(null));
-    //     }
-    // }, []);
     useEffect(() => {
         if (cars.length) { 
             dispatch(filterCars(null));
@@ -54,7 +42,6 @@ export default function MainPage() {
         case 'idle':
             console.log('loadStatus - idle')
             RenderData = 'my component was loaded without error';
-            // [ <CarsCard/>, <CarsCard/>, <CarsCard/>, <CarsCard/>]
             RenderData = filteredCars.map(carInfo => { 
                 const {
                     brand,
