@@ -6,7 +6,6 @@ const getCars = createAsyncThunk(
             const resp = await fetch("https://dummyjson.com/products/category/vehicle");
             if (resp.ok) {
                 const data = await resp.json();
-                // console.log(data)
                 return data.products;
             }
         } catch (error) {
@@ -16,14 +15,8 @@ const getCars = createAsyncThunk(
 
     }
 )
-// preloadedState: {
-//     loadStatus: 'idle',
-//     filtersCars: [],
-//     cars:[],
-//      filter: '',
-// },
+
 function fiterByValue(cars, filter) {
-    // const { brand, price, rating } = filter;
     const brand = filter.brand;
     const price = Number(filter.price);
     const rating = Number(filter.rating);
@@ -35,6 +28,13 @@ function fiterByValue(cars, filter) {
         return isEqualBrand && isRatingCarMoreThenFilterRating && isCarPriceLessThenFilterPrice;
     })
 }
+
+
+function setCommentsInCarProperties(state,{id, comments}) { 
+    const car = state.cars.find((car) => car.id === id)
+    car.reviews.length ? car.reviews.push(...comments) : car.reviews = comments;
+}
+
 const slice = createSlice({
     name: 'cars',
     reducers: {
@@ -45,6 +45,9 @@ const slice = createSlice({
                 fiterByValue(state.cars,filter)
 
         },
+        addCommentsInCarProps: (state, {payload}) => { 
+            setCommentsInCarProperties(state, payload)
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -62,5 +65,5 @@ const slice = createSlice({
     }
 });
 const { reducer, actions } = slice;
-const { filterCars } = actions
-export { reducer, filterCars, getCars }
+const { filterCars, addCommentsInCarProps } = actions
+export { reducer, filterCars, getCars, addCommentsInCarProps }

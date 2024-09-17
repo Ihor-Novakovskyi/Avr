@@ -1,8 +1,12 @@
 import './CommentsBlock.css';
 import React, { useState } from 'react';
+import { addCommentsInCarProps } from '../../utils/reducer';
+import { useDispatch } from 'react-redux';
 export default function CommentsBlock({ car }) {
-    const [reviewerInfo, setReviewerInfo] = useState({ name: '', email: '', comment: '' });
-    const { name, email, comment } = reviewerInfo;
+    const [reviewerInfo, setReviewerInfo] = useState({ reviewerName: '', reviewerEmail: '', comment: '', rating: '' });
+    const [isError, setError] = useState({ reviewerName: false, reviewerEmail: false, comment: false, rating: false })
+    const { reviewerName, reviewerEmail, comment, rating } = reviewerInfo;
+    const dispatch = useDispatch();
     const { reviews, id } = car;
 
     function setComment(e) {
@@ -11,12 +15,28 @@ export default function CommentsBlock({ car }) {
     }
     function addComment(e) { 
         e.preventDefault();
-        if (name && email && comment) { 
-            console.log('extension work')
-            setDataToLocalStorage('comment', id, reviewerInfo)
+        if (reviewerName && reviewerEmail && comment && rating) {
+            if (!Number(rating)) { 
+                setError(error => ({...error, rating: true }))
+                return;
+            }
+            const commentSaveToStorage = {
+                ...reviewerInfo,
+                date: new Date().toISOString(),
+            };
+            const commentsTOSaveToCarInState = setDataToLocalStorage('comment', id, commentSaveToStorage)
+            dispatch(addCommentsInCarProps(commentsTOSaveToCarInState))
+        } else { 
+            setError({
+                reviewerName: !reviewerName.length,
+                reviewerEmail: !reviewerEmail.length,
+                comment: !comment.length,
+                rating: !rating.length || Number(rating),
+            })
         }
     }
     console.log(reviewerInfo)
+    console.log('isError', isError)
     return (
         <form
             onSubmit={addComment}
@@ -37,8 +57,8 @@ export default function CommentsBlock({ car }) {
                         </span>
                         <input
                             onChange={ setComment }
-                            value={reviewerInfo.name}
-                            name="name"
+                            value={reviewerName}
+                            name="reviewerName"
                             type="text"
                             className="car__enter-reviewer-info"
                         />
@@ -50,8 +70,20 @@ export default function CommentsBlock({ car }) {
                         </span>
                         <input
                             onChange={ setComment }
-                            value={reviewerInfo.email}
-                            name="email"
+                            value={reviewerEmail}
+                            name="reviewerEmail"
+                            type="text"
+                            className="car__enter-reviewer-info"
+                        />
+                    </label>
+                    <label className="car__enter-reviewer-label car__enter-reviewer-label--small">
+                        <span className="car__enter-reviewer-type-info">
+                            Rating
+                        </span>
+                        <input
+                            onChange={ setComment }
+                            value={rating}
+                            name="rating"
                             type="text"
                             className="car__enter-reviewer-info"
                         />
@@ -74,7 +106,7 @@ export default function CommentsBlock({ car }) {
     )
 }
 
-function Comments({ userComment: { reviewerName, reviewerEmail, date, comment } }) {
+function Comments({ userComment: { reviewerName, reviewerEmail, date, comment, rating } }) {
     return (
         <div className="car__reviews-item">
             <div className="car__reviewer-own-info">
@@ -87,6 +119,9 @@ function Comments({ userComment: { reviewerName, reviewerEmail, date, comment } 
                 <span className="car__reviewer-data">
                     { reviewerEmail }
                 </span>
+                <span className="car__reviewer-data">
+                    Car rating: { rating }
+                </span>
             </div>
             <span className="car__reviewer-comment">
                 { comment }
@@ -98,10 +133,12 @@ function Comments({ userComment: { reviewerName, reviewerEmail, date, comment } 
 function setDataToLocalStorage(key, id, data) { 
     console.log(!!localStorage.getItem(key))
     console.log(localStorage.getItem(key))
-    const comment = !!localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : {[id]: []};
-    `${id}` in comment ? comment[id].push(data) : (comment[id] = [], comment[id].push(data));
-    localStorage.setItem(key, JSON.stringify(comment))
-    console.log('comment',comment)
+    const comments = !!localStorage.getItem(key) ? JSON.parse(localStorage.getItem(key)) : {[id]: []};
+    `${id}` in comments ? comments[id].push(data) : (comments[id] = [], comments[id].push(data));
+    localStorage.setItem(key, JSON.stringify(comments))
+    console.log('comment', comments)
+    return {
+        id,
+        comments: comments[id]
+    }
 }
-// setDataToLocalStorage('comment')
-console.log(new Date('2024-05-23T08:56:21.626Z'))
