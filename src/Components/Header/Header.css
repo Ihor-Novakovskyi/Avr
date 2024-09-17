@@ -3,6 +3,7 @@
     padding: 0px 32px;
     background-color:black;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
 
@@ -14,4 +15,25 @@
 .main-page__logo-2{
     height: 100px;
     width: 160px;
+}
+@media (max-width: 576px){
+    .main-page__header{
+        height: 80px;
+    }
+    .main-page__logo-1{
+        width: 120px;
+        height: 36px;
+    }
+    .main-page__logo-2{
+        width: 100px;
+        height: 46px;
+    }
+}
+@media (max-width: 320px){
+    .main-page__header{
+        height: auto;
+        align-items: center;
+        justify-content: center;
+    
+    }
 }
