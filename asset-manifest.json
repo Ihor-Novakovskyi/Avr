@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/Avr/static/css/main.a4e3d8fe.css",
-    "main.js": "/Avr/static/js/main.cdd704e1.js",
+    "main.css": "/Avr/static/css/main.5a8e9fe7.css",
+    "main.js": "/Avr/static/js/main.5db6fc51.js",
     "static/media/avtopro.svg": "/Avr/static/media/avtopro.5a894c96795a4681561d409e519db8d0.svg",
+    "static/media/free-icon-error-2731804.png": "/Avr/static/media/free-icon-error-2731804.e81e7d04502badea59f5.png",
     "static/media/another.png": "/Avr/static/media/another.e389babe48ca717a1060.png",
     "index.html": "/Avr/index.html",
-    "main.a4e3d8fe.css.map": "/Avr/static/css/main.a4e3d8fe.css.map",
-    "main.cdd704e1.js.map": "/Avr/static/js/main.cdd704e1.js.map"
+    "main.5a8e9fe7.css.map": "/Avr/static/css/main.5a8e9fe7.css.map",
+    "main.5db6fc51.js.map": "/Avr/static/js/main.5db6fc51.js.map"
   },
   "entrypoints": [
-    "static/css/main.a4e3d8fe.css",
-    "static/js/main.cdd704e1.js"
+    "static/css/main.5a8e9fe7.css",
+    "static/js/main.5db6fc51.js"
   ]
 }
